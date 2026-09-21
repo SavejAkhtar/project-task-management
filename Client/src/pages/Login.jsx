@@ -31,7 +31,7 @@ const Login = () => {
             })
             .catch((err) => {
 
-                console.log(err);
+               alert(res.data.msg);
 
             });
 
