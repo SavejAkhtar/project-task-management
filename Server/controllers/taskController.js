@@ -161,7 +161,7 @@ const updateTaskStatus = (req, res) => {
 const updateTask = (req, res) => {
 
     let { id } = req.params;
-    let { title, description, status, priority, dueDate } = req.body;
+    let { title, description, project, assignedTo, status, priority, dueDate } = req.body;
 
     Task.updateOne(
         { _id: id },
@@ -169,6 +169,8 @@ const updateTask = (req, res) => {
             $set: {
                 title: title,
                 description: description,
+                project: project,
+                assignedTo: assignedTo,
                 status: status,
                 priority: priority,
                 dueDate: dueDate
@@ -178,29 +180,22 @@ const updateTask = (req, res) => {
 
         if (result.matchedCount === 0) {
             return res.send({
-                status: 0, msg: "Task not found"
+                status: 0,
+                msg: "Task not found"
             });
         }
 
-        let log = new AuditLog({
-            user: req.user.id,
-            action: "UPDATE",
-            entity: "Task",
-            entityId: id
-        });
-
-        log.save();
-
-
-
         res.send({
-            status: 1, msg: "Task updated successfully"
+            status: 1,
+            msg: "Task updated successfully"
         });
 
     }).catch((err) => {
 
         res.send({
-            status: 0, msg: "Task not updated", error: err
+            status: 0,
+            msg: "Task not updated",
+            error: err
         });
 
     });
