@@ -1,0 +1,11 @@
+services:
+
+  server:
+    build: ./Server
+    container_name: project-server
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      URL: mongodb://host.docker.internal:27017/projectManagement
+      JWT_SECRET: project_management
