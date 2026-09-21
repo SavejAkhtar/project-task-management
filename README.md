@@ -271,8 +271,7 @@ docker compose up --build
 
 Deployment
 
-Frontend:
-https://project-task-management-git-main-savejakhtar.vercel.app
+Frontend:https://project-task-management-gamma.vercel.app
 
 Backend:
 https://project-task-management-n9kv.onrender.com
