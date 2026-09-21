@@ -1,67 +1,95 @@
-# Project & Task Management System
+Project & Task Management System
 
 A full-stack Project & Task Management System built using the MERN stack. The application provides authentication, role-based access, project management, task assignment and task tracking.
 
-## Features
+Features
 
-- User registration and login
-- JWT authentication
-- Password hashing using bcryptjs
-- Role-based access control
-- Protected routes
-- Project management
-- Task management
-- Task assignment
-- Task status and priority management
-- Due date management
-- Task search
-- Task filtering
-- Pagination
-- Audit logging
-- REST APIs
-- Frontend and backend validation
+User registration and login
 
-## User Roles
+JWT authentication
 
-### Admin
+Password hashing using bcryptjs
 
-- Manage projects and tasks
-- Access admin protected APIs
+Role-based access control
 
-### Project Manager
+Protected routes
 
-- Create, update and delete projects
-- Create, update and delete tasks
-- Assign tasks to team members
-- View all tasks
+Project management
 
-### Team Member
+Task management
 
-- View assigned tasks
-- Update the status of assigned tasks
+Task assignment
 
-## Tech Stack
+Task status and priority management
 
-### Frontend
+Due date management
 
-- React
-- Vite
-- Tailwind CSS
-- Axios
-- React Router
+Task search
 
-### Backend
+Task filtering
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT
-- bcryptjs
+Pagination
 
-## Project Structure
+Audit logging
 
-```text
+REST APIs
+
+Frontend and backend validation
+
+User Roles
+
+Admin
+
+Manage projects and tasks
+
+Access admin protected APIs
+
+Project Manager
+
+Create, update and delete projects
+
+Create, update and delete tasks
+
+Assign tasks to team members
+
+View all tasks
+
+Team Member
+
+View assigned tasks
+
+Update the status of assigned tasks
+
+Tech Stack
+
+Frontend
+
+React
+
+Vite
+
+Tailwind CSS
+
+Axios
+
+React Router
+
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB
+
+Mongoose
+
+JWT
+
+bcryptjs
+
+Project Structure
+
 Project-Task-Management/
 │
 ├── Server/
@@ -70,12 +98,13 @@ Project-Task-Management/
 │   ├── models/
 │   ├── routes/
 │   ├── API_DOCUMENTATION.md
+│   ├── Dockerfile
 │   ├── .env
 │   ├── .gitignore
 │   ├── server.js
 │   └── package.json
 │
-├── client/
+├── Client/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
@@ -83,176 +112,202 @@ Project-Task-Management/
 │   │   └── main.jsx
 │   └── package.json
 │
+├── docker-compose.yml
 ├── ER-Diagram.png
 └── README.md
-```
 
-## Setup
+Setup
 
-### Backend
+Backend
 
 Open the terminal and run:
 
-```bash
 cd Server
 npm install
 npm start
-```
 
 Backend URL:
 
-```text
 http://localhost:8000
-```
 
-### Frontend
+Frontend
 
 Open another terminal and run:
 
-```bash
-cd client
+cd Client
 npm install
 npm run dev
-```
 
 Frontend URL:
 
-```text
 http://localhost:5173
-```
 
-## Environment Variables
+Environment Variables
 
-Create a `.env` file inside the `Server` folder:
+Create a .env file inside the Server folder:
 
-```env
 PORT=8000
 URL=mongodb://localhost:27017/projectManagement
 JWT_SECRET=your_secret_key
-```
 
 Make sure MongoDB is running before starting the backend.
 
-## Authentication
+Authentication
 
 The application uses JWT for authentication.
 
 After login, the server generates a JWT token. Protected APIs require the token in the request header:
 
-```text
 Authorization: Bearer <JWT_TOKEN>
-```
 
-## Database
+Database
 
 MongoDB is used as the database and Mongoose is used for database operations.
 
 Main collections:
 
-- Users
-- Projects
-- Tasks
-- AuditLogs
+Users
 
-## Audit Logging
+Projects
+
+Tasks
+
+AuditLogs
+
+Audit Logging
 
 The application records important task operations in the AuditLog collection.
 
 Each audit log stores:
 
-- User
-- Action
-- Entity
-- Entity ID
-- Created date
-- Updated date
+User
 
-## API Documentation
+Action
+
+Entity
+
+Entity ID
+
+Created date
+
+Updated date
+
+API Documentation
 
 The complete API documentation is available in:
 
-```text
 Server/API_DOCUMENTATION.md
-```
 
 It contains the available authentication, project and task APIs.
 
-## Postman Testing
+Postman Testing
 
 The APIs were tested using Postman.
 
 The tested operations include:
 
-- Register User
-- Login User
-- Get Profile
-- Get Team Members
-- Create Project
-- Get Projects
-- Update Project
-- Delete Project
-- Create Task
-- Get Tasks
-- Search Tasks
-- Get My Tasks
-- Update Task Status
-- Update Task
-- Delete Task
+Register User
 
-## ER Diagram
+Login User
+
+Get Profile
+
+Get Team Members
+
+Create Project
+
+Get Projects
+
+Update Project
+
+Delete Project
+
+Create Task
+
+Get Tasks
+
+Search Tasks
+
+Get My Tasks
+
+Update Task Status
+
+Update Task
+
+Delete Task
+
+ER Diagram
 
 The database relationships are documented in:
 
-```text
 ER-Diagram.png
-```
 
 Main relationships:
 
-```text
 User 1 ---- N Project
 User 1 ---- N Task
 Project 1 - N Task
 User 1 ---- N AuditLog
-```
 
-## Validation and Error Handling
+Validation and Error Handling
 
 The application includes:
 
-- Required field validation
-- Mongoose schema validation
-- JWT token validation
-- Role-based authorization
-- API error handling
+Required field validation
 
-## Demo Credentials
+Mongoose schema validation
 
-Use dedicated test accounts for demonstration.
+JWT token validation
 
-### Project Manager
+Role-based authorization
 
-Email: savej@gmail.com
+API error handling
 
+Docker
+
+The backend can also be run using Docker.
+
+docker compose up --build
+
+Deployment
+
+Frontend is deployed on Vercel.
+
+Backend is deployed on Render.
+
+MongoDB database is hosted on MongoDB Atlas.
+
+Demo Credentials
+
+Use these dedicated accounts for demonstration.
+
+Admin
+
+Email: admin@gmail.com
 Password: 123456
 
-### Team Member
+Project Manager
+
+Email: manager@gmail.com
+Password: 123456
+
+Team Member
 
 Email: member@gmail.com
-
 Password: 123456
 
-## Running the Application
+Running the Application
 
-1. Start MongoDB.
-2. Start the backend from the `Server` folder.
-3. Start the frontend from the `client` folder.
-4. Open the frontend URL in the browser.
+Start MongoDB.
 
-```text
+Start the backend from the Server folder.
+
+Start the frontend from the Client folder.
+
+Open the frontend URL in the browser.
+
 http://localhost:5173
-```
 
-## Author
+Author
 
 Project & Task Management System
