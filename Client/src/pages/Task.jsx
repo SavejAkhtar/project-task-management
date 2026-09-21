@@ -14,9 +14,15 @@ const Tasks = () => {
     let [members, setMembers] = useState([]);
     let [projects, setProjects] = useState([]);
 
-    let role = localStorage.getItem("role");
-
     let [editId, setEditId] = useState("");
+
+    let [searchKeyword, setSearchKeyword] = useState("");
+    let [filterStatus, setFilterStatus] = useState("");
+    let [filterPriority, setFilterPriority] = useState("");
+    let [page, setPage] = useState(1);
+    let [limit] = useState(5);
+
+    let role = localStorage.getItem("role");
 
     let createTask = (e) => {
 
@@ -41,44 +47,48 @@ const Tasks = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((res) => {
+        .then((res) => {
 
-                console.log(res.data);
+            console.log(res.data);
 
-                if (res.data.status === 1) {
+            if (res.data.status === 1) {
 
-                    setTitle("");
-                    setDescription("");
-                    setProject("");
-                    setAssignedTo("");
-                    setPriority("medium");
-                    setDueDate("");
+                setTitle("");
+                setDescription("");
+                setProject("");
+                setAssignedTo("");
+                setPriority("medium");
+                setDueDate("");
+                setPage(1);
+                setSearchKeyword("");
+                setFilterStatus("");
+                setFilterPriority("");
 
-                    axios.get("https://project-task-management-n9kv.onrender.com/api/tasks?page=1&limit=20", {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                        .then((res) => {
+                axios.get("https://project-task-management-n9kv.onrender.com/api/tasks?page=1&limit=5", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                .then((res) => {
 
-                            if (res.data.status === 1) {
-                                setTasks(res.data.data);
-                            }
+                    if (res.data.status === 1) {
+                        setTasks(res.data.data);
+                    }
 
-                        });
+                });
 
-                } else {
+            } else {
 
-                    alert(res.data.msg);
+                alert(res.data.msg);
 
-                }
+            }
 
-            })
-            .catch((err) => {
+        })
+        .catch((err) => {
 
-                console.log(err);
+            console.log(err);
 
-            });
+        });
     };
 
     let editTask = (task) => {
@@ -86,8 +96,8 @@ const Tasks = () => {
         setEditId(task._id);
         setTitle(task.title);
         setDescription(task.description);
-        setProject(task.project);
-        setAssignedTo(task.assignedTo);
+        setProject(task.project.toString());
+        setAssignedTo(task.assignedTo.toString());
         setPriority(task.priority);
         setDueDate(task.dueDate.slice(0, 10));
 
@@ -100,6 +110,10 @@ const Tasks = () => {
         let token = localStorage.getItem("token");
 
         let oldTask = tasks.find((task) => task._id === editId);
+
+        if (!oldTask) {
+            return;
+        }
 
         axios.put(`https://project-task-management-n9kv.onrender.com/api/tasks/${editId}`, {
             title: title,
@@ -114,46 +128,48 @@ const Tasks = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((res) => {
+        .then((res) => {
 
-                console.log(res.data);
+            console.log(res.data);
 
-                if (res.data.status === 1) {
+            if (res.data.status === 1) {
 
-                    setTasks((oldTasks) =>
-                        oldTasks.map((task) =>
-                            task._id === editId
-                                ? {
-                                    ...task,
-                                    title: title,
-                                    description: description,
-                                    priority: priority,
-                                    dueDate: dueDate
-                                }
-                                : task
-                        )
-                    );
+                setTasks((oldTasks) =>
+                    oldTasks.map((task) =>
+                        task._id === editId
+                            ? {
+                                ...task,
+                                title: title,
+                                description: description,
+                                project: project,
+                                assignedTo: assignedTo,
+                                priority: priority,
+                                dueDate: dueDate
+                            }
+                            : task
+                    )
+                );
 
-                    setEditId("");
-                    setTitle("");
-                    setDescription("");
-                    setProject("");
-                    setAssignedTo("");
-                    setPriority("medium");
-                    setDueDate("");
+                setEditId("");
+                setTitle("");
+                setDescription("");
+                setProject("");
+                setAssignedTo("");
+                setPriority("medium");
+                setDueDate("");
 
-                } else {
+            } else {
 
-                    alert(res.data.msg);
+                alert(res.data.msg);
 
-                }
+            }
 
-            })
-            .catch((err) => {
+        })
+        .catch((err) => {
 
-                console.log(err);
+            console.log(err);
 
-            });
+        });
     };
 
     let cancelEdit = () => {
@@ -183,28 +199,28 @@ const Tasks = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((res) => {
+        .then((res) => {
 
-                console.log(res.data);
+            console.log(res.data);
 
-                if (res.data.status === 1) {
+            if (res.data.status === 1) {
 
-                    setTasks((oldTasks) =>
-                        oldTasks.filter((task) => task._id !== id)
-                    );
+                setTasks((oldTasks) =>
+                    oldTasks.filter((task) => task._id !== id)
+                );
 
-                } else {
+            } else {
 
-                    alert(res.data.msg);
+                alert(res.data.msg);
 
-                }
+            }
 
-            })
-            .catch((err) => {
+        })
+        .catch((err) => {
 
-                console.log(err);
+            console.log(err);
 
-            });
+        });
     };
 
     let getMyTasks = () => {
@@ -216,22 +232,22 @@ const Tasks = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((res) => {
+        .then((res) => {
 
-                console.log(res.data);
+            console.log(res.data);
 
-                if (res.data.status === 1) {
-                    setTasks(res.data.data);
-                } else {
-                    alert(res.data.msg);
-                }
+            if (res.data.status === 1) {
+                setTasks(res.data.data);
+            } else {
+                alert(res.data.msg);
+            }
 
-            })
-            .catch((err) => {
+        })
+        .catch((err) => {
 
-                console.log(err);
+            console.log(err);
 
-            });
+        });
     };
 
     let updateStatus = (id, status) => {
@@ -245,32 +261,110 @@ const Tasks = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-            .then((res) => {
+        .then((res) => {
 
-                console.log(res.data);
+            console.log(res.data);
 
-                if (res.data.status === 1) {
+            if (res.data.status === 1) {
 
-                    setTasks((oldTasks) =>
-                        oldTasks.map((task) =>
-                            task._id === id
-                                ? { ...task, status: status }
-                                : task
-                        )
-                    );
+                setTasks((oldTasks) =>
+                    oldTasks.map((task) =>
+                        task._id === id
+                            ? { ...task, status: status }
+                            : task
+                    )
+                );
 
-                } else {
+            } else {
 
-                    alert(res.data.msg);
+                alert(res.data.msg);
 
-                }
+            }
 
-            })
-            .catch((err) => {
+        })
+        .catch((err) => {
 
-                console.log(err);
+            console.log(err);
 
-            });
+        });
+    };
+
+    let getTasks = () => {
+
+        let token = localStorage.getItem("token");
+
+        let url = `https://project-task-management-n9kv.onrender.com/api/tasks?page=${page}&limit=${limit}`;
+
+        if (filterStatus) {
+            url = url + `&status=${filterStatus}`;
+        }
+
+        if (filterPriority) {
+            url = url + `&priority=${filterPriority}`;
+        }
+
+        axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((res) => {
+
+            console.log(res.data);
+
+            if (res.data.status === 1) {
+                setTasks(res.data.data);
+            } else {
+                alert(res.data.msg);
+            }
+
+        })
+        .catch((err) => {
+
+            console.log(err);
+
+        });
+    };
+
+    let searchTasks = () => {
+
+        let token = localStorage.getItem("token");
+
+        if (!searchKeyword) {
+            getTasks();
+            return;
+        }
+
+        axios.get(`https://project-task-management-n9kv.onrender.com/api/tasks/search?keyword=${searchKeyword}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((res) => {
+
+            console.log(res.data);
+
+            if (res.data.status === 1) {
+                setTasks(res.data.data);
+            } else {
+                alert(res.data.msg);
+            }
+
+        })
+        .catch((err) => {
+
+            console.log(err);
+
+        });
+    };
+
+    let resetFilter = () => {
+
+        setSearchKeyword("");
+        setFilterStatus("");
+        setFilterPriority("");
+        setPage(1);
+
     };
 
     useEffect(() => {
@@ -284,42 +378,24 @@ const Tasks = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-                .then((res) => {
+            .then((res) => {
 
-                    console.log(res.data);
+                console.log(res.data);
 
-                    if (res.data.status === 1) {
-                        setTasks(res.data.data);
-                    }
+                if (res.data.status === 1) {
+                    setTasks(res.data.data);
+                }
 
-                })
-                .catch((err) => {
+            })
+            .catch((err) => {
 
-                    console.log(err);
+                console.log(err);
 
-                });
+            });
 
         } else {
 
-            axios.get("https://project-task-management-n9kv.onrender.com/api/tasks?page=1&limit=20", {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then((res) => {
-
-                    console.log(res.data);
-
-                    if (res.data.status === 1) {
-                        setTasks(res.data.data);
-                    }
-
-                })
-                .catch((err) => {
-
-                    console.log(err);
-
-                });
+            getTasks();
 
         }
 
@@ -330,34 +406,12 @@ const Tasks = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-                .then((res) => {
-
-                    console.log(res.data);
-
-                    if (res.data.status === 1) {
-                        setMembers(res.data.data);
-                    }
-
-                })
-                .catch((err) => {
-
-                    console.log(err);
-
-                });
-
-        }
-
-        axios.get("https://project-task-management-n9kv.onrender.com/api/projects", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
             .then((res) => {
 
                 console.log(res.data);
 
                 if (res.data.status === 1) {
-                    setProjects(res.data.data);
+                    setMembers(res.data.data);
                 }
 
             })
@@ -367,7 +421,29 @@ const Tasks = () => {
 
             });
 
-    }, []);
+        }
+
+        axios.get("https://project-task-management-n9kv.onrender.com/api/projects", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((res) => {
+
+            console.log(res.data);
+
+            if (res.data.status === 1) {
+                setProjects(res.data.data);
+            }
+
+        })
+        .catch((err) => {
+
+            console.log(err);
+
+        });
+
+    }, [page, filterStatus, filterPriority]);
 
     return (
         <div className="min-h-screen bg-slate-100">
@@ -379,6 +455,92 @@ const Tasks = () => {
                 <h1 className="text-2xl font-bold">
                     Tasks
                 </h1>
+
+                {(role === "admin" || role === "projectManager") && (
+
+                    <div className="bg-white p-4 rounded-lg border mt-5">
+
+                        <div className="flex flex-col md:flex-row gap-3">
+
+                            <input
+                                type="text"
+                                placeholder="Search task"
+                                value={searchKeyword}
+                                onChange={(e) => setSearchKeyword(e.target.value)}
+                                className="border p-2 rounded"
+                            />
+
+                            <button
+                                onClick={searchTasks}
+                                className="bg-blue-600 text-white px-4 py-2 rounded"
+                            >
+                                Search
+                            </button>
+
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => {
+                                    setFilterStatus(e.target.value);
+                                    setPage(1);
+                                }}
+                                className="border p-2 rounded"
+                            >
+                                <option value="">All Status</option>
+                                <option value="todo">Todo</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+
+                            <select
+                                value={filterPriority}
+                                onChange={(e) => {
+                                    setFilterPriority(e.target.value);
+                                    setPage(1);
+                                }}
+                                className="border p-2 rounded"
+                            >
+                                <option value="">All Priority</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+
+                            <button
+                                onClick={resetFilter}
+                                className="bg-gray-600 text-white px-4 py-2 rounded"
+                            >
+                                Reset
+                            </button>
+
+                        </div>
+
+                        <div className="flex gap-3 mt-4">
+
+                            <button
+                                onClick={() => setPage(page - 1)}
+                                disabled={page === 1}
+                                className="bg-slate-900 text-white px-4 py-2 rounded disabled:opacity-50"
+                            >
+                                Previous
+                            </button>
+
+                            <span className="px-4 py-2">
+                                Page {page}
+                            </span>
+
+                            <button
+                                onClick={() => setPage(page + 1)}
+                                disabled={tasks.length < limit}
+                                className="bg-slate-900 text-white px-4 py-2 rounded disabled:opacity-50"
+                            >
+                                Next
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                )}
 
                 {role === "teamMember" && (
                     <button
@@ -415,7 +577,6 @@ const Tasks = () => {
                         <select
                             value={project}
                             onChange={(e) => setProject(e.target.value)}
-
                             className="border p-2 rounded w-full mb-3"
                         >
                             <option value="">Select Project</option>
@@ -431,7 +592,6 @@ const Tasks = () => {
                         <select
                             value={assignedTo}
                             onChange={(e) => setAssignedTo(e.target.value)}
-
                             className="border p-2 rounded w-full mb-3"
                         >
                             <option value="">Select Team Member</option>
