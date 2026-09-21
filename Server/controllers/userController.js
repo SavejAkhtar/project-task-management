@@ -70,7 +70,7 @@ const loginUser = (req, res) => {
 
 const getTeamMembers = (req, res) => {
 
-    User.find({ role: "teamMember" })
+    User.find({ role: "teamMember" }).select("-password")
     .then((users) => {
 
         res.send({status: 1,msg: "Team members get successfully",data: users
