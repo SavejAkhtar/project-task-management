@@ -271,9 +271,11 @@ docker compose up --build
 
 Deployment
 
-Frontend is deployed on Vercel.
+Frontend:
+https://project-task-management-git-main-savejakhtar.vercel.app
 
-Backend is deployed on Render.
+Backend:
+https://project-task-management-n9kv.onrender.com
 
 MongoDB database is hosted on MongoDB Atlas.
 
