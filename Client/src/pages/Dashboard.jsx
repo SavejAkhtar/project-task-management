@@ -13,7 +13,7 @@ const Dashboard = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:8000/api/projects", {
+        axios.get("https://project-task-management-n9kv.onrender.com/api/projects", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
             });
 
-        axios.get("http://localhost:8000/api/tasks", {
+        axios.get("https://project-task-management-n9kv.onrender.com/api/tasks", {
             headers: {
                 Authorization: `Bearer ${token}`
             }

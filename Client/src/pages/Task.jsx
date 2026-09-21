@@ -27,7 +27,7 @@ const Tasks = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.post("http://localhost:8000/api/tasks/create", {
+        axios.post("https://project-task-management-n9kv.onrender.com/api/tasks/create", {
             title: title,
             description: description,
             project: project,
@@ -50,7 +50,7 @@ const Tasks = () => {
                 setPriority("medium");
                 setDueDate("");
 
-                axios.get("http://localhost:8000/api/tasks?page=1&limit=20", {
+                axios.get("https://project-task-management-n9kv.onrender.com/api/tasks?page=1&limit=20", {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -75,7 +75,7 @@ const Tasks = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:8000/api/tasks/myTask", {
+        axios.get("https://project-task-management-n9kv.onrender.com/api/tasks/myTask", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -97,7 +97,7 @@ const Tasks = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.put(`http://localhost:8000/api/tasks/${id}/status`, {
+        axios.put(`https://project-task-management-n9kv.onrender.com/api/tasks/${id}/status`, {
             status: status
         }, {
             headers: {
@@ -131,7 +131,7 @@ const Tasks = () => {
 
     if (role === "teamMember") {
 
-        axios.get("http://localhost:8000/api/tasks/myTask", {
+        axios.get("https://project-task-management-n9kv.onrender.com/api/tasks/myTask", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -153,7 +153,7 @@ const Tasks = () => {
 
     } else {
 
-        axios.get("http://localhost:8000/api/tasks?page=1&limit=20", {
+        axios.get("https://project-task-management-n9kv.onrender.com/api/tasks?page=1&limit=20", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -176,7 +176,7 @@ const Tasks = () => {
     }
 
 
-    axios.get("http://localhost:8000/api/users/team-members", {
+    axios.get("https://project-task-management-n9kv.onrender.com/api/users/team-members", {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -197,7 +197,7 @@ const Tasks = () => {
     });
 
 
-    axios.get("http://localhost:8000/api/projects", {
+    axios.get("https://project-task-management-n9kv.onrender.com/api/projects", {
         headers: {
             Authorization: `Bearer ${token}`
         }

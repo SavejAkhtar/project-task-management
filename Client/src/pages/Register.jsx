@@ -14,7 +14,7 @@ const Register = () => {
 
         e.preventDefault();
 
-        axios.post("http://localhost:8000/api/users/register", {
+        axios.post("https://project-task-management-n9kv.onrender.com/api/users/register", {
             name: name,
             email: email,
             password: password

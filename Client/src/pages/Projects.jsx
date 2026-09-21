@@ -20,7 +20,7 @@ const Projects = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.post("http://localhost:8000/api/projects/create", {
+        axios.post("https://project-task-management-n9kv.onrender.com/api/projects/create", {
             name: name,
             description: description
         }, {
@@ -57,7 +57,7 @@ const Projects = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.put(`http://localhost:8000/api/projects/${editId}`, {
+        axios.put(`https://project-task-management-n9kv.onrender.com/api/projects/${editId}`, {
             name: name,
             description: description,
             status: "active"
@@ -88,7 +88,7 @@ const Projects = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.delete(`http://localhost:8000/api/projects/${id}`, {
+        axios.delete(`https://project-task-management-n9kv.onrender.com/api/projects/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -111,7 +111,7 @@ const Projects = () => {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:8000/api/projects", {
+        axios.get("https://project-task-management-n9kv.onrender.com/api/projects", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
