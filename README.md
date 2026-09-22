@@ -113,6 +113,7 @@ Project-Task-Management/
 │   └── package.json
 │
 ├── docker-compose.yml
+├── Database-Schema.md
 ├── ER-Diagram.png
 └── README.md
 
