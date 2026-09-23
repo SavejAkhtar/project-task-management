@@ -7,6 +7,7 @@ const Login = () => {
 
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    let [error, setError] = useState("");
 
     let navigate = useNavigate();
 
@@ -14,6 +15,8 @@ const Login = () => {
     let handleLogin = (e) => {
 
         e.preventDefault();
+
+        setError("");
 
         axios.post("https://project-task-management-n9kv.onrender.com/api/users/login", {
             email: email,
@@ -23,15 +26,24 @@ const Login = () => {
 
                 console.log(res.data);
 
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("role", res.data.user.role);
+                if (res.data.status === 1) {
 
-                navigate("/dashboard");
+                    localStorage.setItem("token", res.data.token);
+                    localStorage.setItem("role", res.data.user.role);
+
+                    navigate("/dashboard");
+
+                } else {
+
+                    setError(res.data.msg);
+
+                }
 
             })
             .catch((err) => {
 
-               alert(res.data.msg);
+                console.log(err);
+                setError("Something went wrong");
 
             });
 
@@ -49,6 +61,12 @@ const Login = () => {
                 <p className="text-center text-gray-500 mt-2">
                     Login to your account
                 </p>
+
+                {error && (
+                    <div className="border border-red-300 bg-red-50 text-red-600 p-4 rounded-lg mt-6 text-lg">
+                        {error}
+                    </div>
+                )}
 
                 <form onSubmit={handleLogin} className="mt-8">
 
