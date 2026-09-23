@@ -90,6 +90,7 @@ bcryptjs
 
 Project Structure
 
+```text
 Project-Task-Management/
 │
 ├── Server/
@@ -107,15 +108,16 @@ Project-Task-Management/
 ├── Client/
 │   ├── src/
 │   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│   │   └── main.jsx
+│   │   └── pages/
+│   ├── App.jsx
+│   ├── main.jsx
 │   └── package.json
 │
 ├── docker-compose.yml
 ├── Database-Schema.md
 ├── ER-Diagram.png
 └── README.md
+```
 
 Setup
 
