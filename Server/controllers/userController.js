@@ -26,19 +26,20 @@ const loginUser = (req, res) => {
 
     let { email, password } = req.body;
 
+    if (!email || !password) {
+        return res.send({status: 0,msg: "Email and password are required"});
+    }
+
     User.findOne({ email: email }).then((user) => {
 
         if (!user) {
-            return res.send({
-                status: 0,
-                msg: "User not found"
-            });
+            return res.send({status: 0,msg: "Invalid email or password"});
         }
 
         bcrypt.compare(password, user.password).then((isMatch) => {
 
             if (!isMatch) {
-                return res.send({status: 0,msg: "Invalid password"});
+                return res.send({status: 0,msg: "Invalid email or password"});
             }
 
          let token = jwt.sign(
